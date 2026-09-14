@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ボトルキープ台帳</title>
+<title>LiberBottl</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -526,8 +526,8 @@
   function renderLogin(msg, isError){
     document.getElementById("root").innerHTML =
       '<div class="login-wrap"><div class="card login-card">'+
-        '<div class="brand-mark">BK</div>'+
-        '<h2 class="section-title">ボトルキープ台帳</h2>'+
+        '<div class="brand-mark" id="loginBrandMark">LB</div>'+
+        '<h2 class="section-title">LiberBottl</h2>'+
         '<p class="section-sub">共有ログインでサインインしてください</p>'+
         '<div class="form-msg'+(msg?" show":"")+(isError?" error":"")+'" id="loginMsg">'+escapeHtml(msg||"")+'</div>'+
         '<form id="loginForm">'+
@@ -550,10 +550,13 @@
     document.getElementById("root").innerHTML =
       '<div id="app">'+
         '<header class="topbar">'+
-          '<div class="brand"><span class="brand-mark">BK</span>'+
-            '<div class="brand-text"><h1>ボトルキープ台帳</h1><p class="tagline">棚 A–E ・ 各50本 ・ スタッフ共有</p></div>'+
+          '<div class="brand"><span class="brand-mark" id="shellBrandMark">LB</span>'+
+            '<div class="brand-text"><h1>LiberBottl</h1><p class="tagline">棚 A–E ・ 各50本 ・ スタッフ共有</p></div>'+
           '</div>'+
-          '<button class="status-pill" id="statusPill" title="タップでログアウト">接続中…</button>'+
+          '<div style="display:flex; align-items:center; gap:8px; flex:none;">'+
+            '<button class="btn btn-primary btn-sm" data-action="jump-add">＋ 追加</button>'+
+            '<button class="status-pill" id="statusPill" title="タップでログアウト">接続中…</button>'+
+          '</div>'+
         '</header>'+
         '<main id="main">'+
           '<section id="tab-overview" class="tab-panel"></section>'+
@@ -959,6 +962,7 @@
     if(!actionEl) return;
     var action = actionEl.dataset.action;
     if(action === "close-modal"){ closeModal(); return; }
+    if(action === "jump-add"){ setTab("add"); window.scrollTo({top:0, behavior:"smooth"}); return; }
     if(action === "open-bottle"){ openBottleModal(actionEl.dataset.id); return; }
     if(action === "open-add-at"){ openAddAt(actionEl.dataset.shelf, actionEl.dataset.slot); return; }
     if(action === "toggle-customer"){
